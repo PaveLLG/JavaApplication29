@@ -11,6 +11,8 @@ public class JavaApplication29 extends Application {
         MyTask task = new MyTask();
         new Thread(task).start();
 
+
+
         System.out.println("End of main()");
         System.exit(0);
     }
@@ -28,12 +30,15 @@ class MyTask extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-       System.out.println("JavaFX task!");
+       for(int i =0; i<10; i++){
+           Thread.sleep(300);
+       }
+
        return null;
     }
 
     @Override
     protected void succeeded() {
-        
+        System.out.println("End of MyTask");
     }
 }
