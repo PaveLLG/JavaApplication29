@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
 
@@ -10,7 +12,18 @@ public class JavaApplication29 extends Application {
 
         MyTask task = new MyTask();
         new Thread(task).start();
+        DoubleProperty progress = new SimpleDoubleProperty();
+        progress.bind(task.progressProperty());
 
+        while (!task.isDone()){
+            try {
+                Thread.sleep(300);
+                System.out.println(progress.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
 
 
         System.out.println("End of main()");
@@ -32,6 +45,7 @@ class MyTask extends Task<Void> {
     protected Void call() throws Exception {
        for(int i =0; i<10; i++){
            Thread.sleep(300);
+           updateProgress(i+1, 10);
        }
 
        return null;
